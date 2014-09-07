@@ -1,7 +1,6 @@
 (ns study-clojure.string_manipulation
   (:require
-   [clojure.string :as s]
-   [clojure.math.combinatorics :as combo]))
+   [clojure.string :as s]))
 
 (defn reverseStringUsingStringReverseMethod
   [arg]
@@ -25,7 +24,3 @@
   [arg]
   (apply str
     (map (partial get arg) (range (dec (count arg)) -1 -1))))
-
-(defn combinations_n_times
-  [args n] 
-  (combo/combinations args n)) 
