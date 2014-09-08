@@ -30,14 +30,12 @@
       (recur (.getNext current) (Node. (.getValue current) new-head)))))
 
   (isCircular [this]
-    (loop [hare this tortoise this]
-      (if-not hare
+    (loop [one this two this]
+      (if-not (and two (.getNext two))
         false
-        (if-not (and (.getNext hare) (.. hare getNext getNext))
-          false
-          (if (= (.getValue (.. hare getNext getNext)) (.getValue tortoise))
-            (println true (.getValue (.. hare getNext getNext)) (.getValue tortoise))
-            (recur (.. hare getNext getNext) (.getNext tortoise)))))))
+          (if (= (.getValue one) (.. two getNext getValue))
+            (println true (.getValue one) (.. two getNext getValue))
+            (recur one (.getNext two))))))
   
   clojure.lang.Seqable
   (seq [this]
