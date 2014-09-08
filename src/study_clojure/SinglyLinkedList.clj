@@ -6,7 +6,8 @@
   (setValue [x])
   (setNext [n])
   (reverse [])
-  (isCircular []))
+  (isCircular [])
+  (findBeginningOfCircularList []))
          
 (deftype Node [^:volatile-mutable value ^:volatile-mutable ^INode next]
   INode
@@ -29,6 +30,8 @@
       ;; next(which is nil the first pass) as the second argument
       (recur (.getNext current) (Node. (.getValue current) new-head)))))
 
+  ;;this only checks if the list is circular in the sense that the
+  ;;last node points to the first
   (isCircular [this]
     (loop [one this two this]
       (if-not (and two (.getNext two))
@@ -36,6 +39,17 @@
           (if (= (.getValue one) (.. two getNext getValue))
             (println true (.getValue one) (.. two getNext getValue))
             (recur one (.getNext two))))))
+
+  ;;this finds the beginning of the circular list where the last node
+  ;;can refer to any node not just the head
+  (findBeginningOfCircularList [this]
+    (loop [one this two this]
+      (println "debug" (.getValue one) (.getValue two))
+      (if-not (and two (.getNext two))
+        (recur (.getNext one) (.getNext one))
+        (if (= (.getValue one) (.. two getNext getValue))
+          (println (.getValue one) (.. two getNext getValue))
+          (recur one (.getNext two))))))
   
   clojure.lang.Seqable
   (seq [this]
@@ -43,4 +57,3 @@
       (if-not current
         acc
         (recur (.getNext current) (concat acc (list (.getValue current))))))))
-
