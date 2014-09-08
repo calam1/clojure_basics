@@ -41,12 +41,14 @@
             (recur one (.getNext two))))))
 
   ;;this finds the beginning of the circular list where the last node
-  ;;can refer to any node not just the head
+  ;;can refer to any node not just the head - will also handle non
+  ;;circular list
   (findBeginningOfCircularList [this]
     (loop [one this two this]
-      (println "debug" (.getValue one) (.getValue two))
       (if-not (and two (.getNext two))
-        (recur (.getNext one) (.getNext one))
+        (if-not (and one (.getNext one))
+          false
+        (recur (.getNext one) (.getNext one)))
         (if (= (.getValue one) (.. two getNext getValue))
           (println (.getValue one) (.. two getNext getValue))
           (recur one (.getNext two))))))
