@@ -9,7 +9,8 @@
   (isCircular [])
   (findBeginningOfCircularList [])
   (addNode [data])
-  (find [data]))
+  (find [data])
+  (deleteDuplicates []))
          
 (deftype Node [^:volatile-mutable value ^:volatile-mutable ^INode next]
   INode
@@ -68,6 +69,16 @@
         (if (= (.getValue current) data)
           true
         (recur (.getNext current) data)))))
+
+  (deleteDuplicates [this]
+    (loop [one this two this]
+      (if-not (.getNext two)
+        (if-not (.getNext one)
+          false
+        (recur (.getNext one) (.getNext one)))
+      (if (= (.getValue one) (.. two getNext getValue))
+        (.setNext two(.. two getNext getNext))
+        (recur one (.getNext two))))))
   
   clojure.lang.Seqable
   (seq [this]
