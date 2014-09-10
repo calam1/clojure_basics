@@ -11,7 +11,8 @@
   (addNode [data])
   (find [data])
   (deleteDuplicates [])
-  (getNthItemFromTheEnd [nth]))
+  (getNthItemFromTheEnd [nth])
+  (getMidItem []))
          
 (deftype Node [^:volatile-mutable value ^:volatile-mutable ^INode next]
   INode
@@ -89,6 +90,15 @@
           (.getValue current)
           (recur (.getNext current) nth (inc counter))))))
 
+  (getMidItem [this]
+    (loop [single this dbl this]
+    (if-not (.getNext dbl)
+      (.getValue single)
+      (if-not (.. dbl getNext getNext)
+        ;;shouldnt print need to at to a list - to print is a hack for now
+        (println (.getValue single) (.. single getNext getValue))
+        (recur (.getNext single) (.. dbl getNext getNext))))))
+  
   clojure.lang.Seqable
   (seq [this]
     (loop [current this acc ()]
