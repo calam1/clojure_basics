@@ -31,7 +31,8 @@
   (findNode [k])
   (insert [k v resize?])
   (insert [k v])
-  (lookup [k]l))
+  (lookup [k]l)
+  (delete [k]))
 
 (deftype HashTable
     [^:volatile-mutable ^objects buckets
@@ -112,4 +113,11 @@
   ;;find - wrapper around getBucket
   (lookup [this k]
     (when-let [^INode node (.getBucket this k)]
-      (.getValue node))))
+      (.getValue node)))
+
+  (delete [this k]
+    (let [[^INode prev ^INode node] (.findNode this k)]
+      (cond
+       (and prev node) (.setNext prev (.getNext node))
+       node (.setBucket this k (.getNext node))))
+    (.maybeResize this)))
