@@ -24,3 +24,16 @@
   [arg]
   (apply str
     (map (partial get arg) (range (dec (count arg)) -1 -1))))
+
+(defn getCountValueFromFrequencies [v]
+  (let [ctr (second v)]
+    (if (= 1 ctr)
+      (first v))))
+
+(defn firstNonRepeatingCharacter [s]
+  (let [letters (mapcat list (frequencies s))
+        results (map getCountValueFromFrequencies letters)]
+    (->> results
+         (filter (complement nil?))
+         (first)
+         (str))))
