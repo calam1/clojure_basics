@@ -27,12 +27,14 @@
 
 ; this method is the same as the anonymous function mapped in the
 ; firstNonRepeatingCharacter function - kept for prosperity sake
-(defn getCountValueFromFrequencies [v]
+(defn getCountValueFromFrequencies
+  [v]
   (let [ctr (second v)]
     (if (= 1 ctr)
       (first v))))
 
-(defn firstNonRepeatingCharacter [s]
+(defn firstNonRepeatingCharacter
+  [s]
   (let [letters (mapcat list (frequencies s))
         results (map (fn [v] (let [ctr (second v)] (if (= 1 ctr) (first v)))) letters)]
     (->> results
@@ -40,11 +42,18 @@
          (first)
          (str))))
 
-; this only works for removing one  provided character, which is the 2nd arg 
-(defn removeCharacterFromString [s d]
+; this only works for removing one  provided character, which is the
+; 2nd arg - this is not idiomatic
+(defn removeCharacterFromString
+  [s d]
   (loop [s (seq s)
-         x (seq d)
+         d (seq d)
          newColl []]
     (if (empty? s)
       (apply str newColl)
-      (recur (rest s) x (if (not= (first s) (first x)) (conj newColl (first s)) newColl)))))
+      (recur (rest s) d (if (not= (first s) (first d)) (conj newColl (first s)) newColl)))))
+
+(defn removeCharactersFromString
+  [rem s]
+  (apply str (remove #((set rem) %) (seq s))))
+
