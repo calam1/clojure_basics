@@ -57,3 +57,9 @@
   [rem s]
   (apply str (remove #((set rem) %) (seq s))))
 
+(defn isRotated
+  [s s2]
+  (->>
+   (.indexOf (str s s) s2)
+   (not= -1)))
+
