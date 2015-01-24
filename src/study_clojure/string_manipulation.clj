@@ -25,6 +25,14 @@
   (apply str
     (map (partial get arg) (range (dec (count arg)) -1 -1))))
 
+(defn reverseRecursively
+  [s]
+  (loop [s (seq s)
+         newColl ()]
+    (if (empty? s)
+      (apply str newColl)
+      (recur (rest s) (conj newColl (first s))))))
+
 ; this method is the same as the anonymous function mapped in the
 ; firstNonRepeatingCharacter function - kept for prosperity sake
 (defn getCountValueFromFrequencies
