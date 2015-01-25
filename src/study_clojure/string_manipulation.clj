@@ -65,9 +65,18 @@
   [rem s]
   (apply str (remove #((set rem) %) (seq s))))
 
-(defn isRotated
+(defn isRotated?
   [s s2]
   (->>
    (.indexOf (str s s) s2)
    (not= -1)))
 
+(defn isPalindrome_1?
+  [s]
+  (= s (apply str (reverse s))))
+
+
+(defn palindrome? [s]
+  (or (<= (count s) 1)
+    (and (= (first s) (last s))
+      (palindrome? (rest (butlast s))))))
