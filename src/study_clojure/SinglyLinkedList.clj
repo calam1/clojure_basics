@@ -105,3 +105,8 @@
       (if-not current
         acc
         (recur (.getNext current) (concat acc (list (.getValue current))))))))
+
+(vec (1 2 3))
+
+
+(setNet)
